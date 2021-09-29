@@ -1,4 +1,4 @@
-name: Build Spot Handler Image
+name: Crud Web Apps - Jupyter Web App
 on:
   push:
     paths:
