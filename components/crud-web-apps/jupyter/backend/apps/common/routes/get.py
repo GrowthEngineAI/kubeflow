@@ -59,6 +59,10 @@ def get_gpu_vendors():
         v.get("limitsKey", "") for v in gpus_value.get("vendors", [])
     ]
 
+    # Add logic to handle autoscalers, returning all vendors
+    if frontend_config.get("gpus", {}).get('autoscaling', False) is True:
+        return api.success_response("vendors", config_vendor_keys)
+
     # Get all of the different resources installed in all nodes
     installed_resources = set()
     nodes = api.list_nodes().items
