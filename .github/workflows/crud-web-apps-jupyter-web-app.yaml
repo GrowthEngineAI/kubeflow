@@ -2,7 +2,7 @@ name: Crud Web Apps - Jupyter Web App
 on:
   push:
     paths:
-      - 'components/crud-web-apps/jupyter/*'
+      - 'components/*'
       - '.github/workflows/crud-web-apps-jupyter-web-app.yaml'
 
 env:
