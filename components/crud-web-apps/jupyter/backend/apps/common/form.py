@@ -144,12 +144,12 @@ def set_server_type(notebook, body, defaults):
     # And rather use them as additional types.
     valid_server_types = ["jupyter", "group-one", "group-two"]
     notebook_annotations = notebook["metadata"]["annotations"]
-    #server_type = get_form_value(body, defaults, "serverType")
-    server_type = "jupyter"
-    #if server_type == "":
-    #    server_type == "jupyter"
-    #if server_type not in valid_server_types:
-    #    raise BadRequest("'%s' is not a valid server type" % server_type)
+    server_type = get_form_value(body, defaults, "serverType")
+    #server_type = "jupyter"
+    if server_type == "":
+        server_type == "jupyter"
+    if server_type not in valid_server_types:
+        raise BadRequest("'%s' is not a valid server type" % server_type)
 
     nb_name = get_form_value(body, defaults, "name")
     nb_ns = get_form_value(body, defaults, "namespace")
