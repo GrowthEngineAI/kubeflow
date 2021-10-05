@@ -59,6 +59,11 @@ def get_gpu_vendors():
         v.get("limitsKey", "") for v in gpus_value.get("vendors", [])
     ]
 
+    # Add logic to handle autoscalers, returning all vendors
+    log.info("Autoscaling Enabled: {}".format(frontend_config.get("gpus", {}).get('autoscaling', False)))
+    if frontend_config.get("gpus", {}).get('autoscaling', False) is True:
+        return api.success_response("vendors", config_vendor_keys)
+
     # Get all of the different resources installed in all nodes
     installed_resources = set()
     nodes = api.list_nodes().items
@@ -67,12 +72,14 @@ def get_gpu_vendors():
 
     # Keep the vendors the key of which exists in at least one node
     available_vendors = installed_resources.intersection(config_vendor_keys)
-    log.info("Autoscaling Enabled: {}".format(frontend_config.get("gpus", {}).get('autoscaling', False)))
+    
+    # Debugging Code
+    #log.info("Autoscaling Enabled: {}".format(frontend_config.get("gpus", {}).get('autoscaling', False)))
     # Add logic to handle autoscalers, returning all vendors
-    if frontend_config.get("gpus", {}).get('autoscaling', False) is True:
-        log.info(f"Returning Vendor Keys: {config_vendor_keys}")
-        log.info(f"Installed Resources: {installed_resources}")
-        log.info(f"Node Resources: {nodes}")
-        return api.success_response("vendors", config_vendor_keys)
+    #if frontend_config.get("gpus", {}).get('autoscaling', False) is True:
+    #    log.info(f"Returning Vendor Keys: {config_vendor_keys}")
+    #    log.info(f"Installed Resources: {installed_resources}")
+    #    log.info(f"Node Resources: {nodes}")
+    #    return api.success_response("vendors", config_vendor_keys)
 
     return api.success_response("vendors", list(available_vendors))
